@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Configurar el repositorio
+    # Descargar el repositorio
     - name: Checkout repository
       uses: actions/checkout@v3
 
@@ -19,16 +19,17 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '7.0.x' # Usa la versión adecuada para tu proyecto
+        dotnet-version: '7.0.x'
 
     # Restaurar dependencias
     - name: Restore dependencies
       run: dotnet restore
 
-    # Compilar el proyecto
+    # Compilar el proyecto sin verificar el juego
     - name: Build project
-      run: dotnet build --configuration Release
-
+      run: |
+        dotnet build --configuration Release /p:GamePath='.'
+        
     # Subir el archivo DLL como artefacto
     - name: Upload mod DLL
       uses: actions/upload-artifact@v3
